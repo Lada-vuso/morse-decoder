@@ -38,7 +38,38 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+  // write your solution here
+    let arr = [];
+
+    // разбиваем выражение на отрезки по 10 символов
+    for (let i = 0; i < expr.length; i+=10) {
+      arr.push(expr.slice(i, i + 10));
+    }
+
+    for (let i = 0; i < arr.length; i++)  {
+      // если отрезок из ** - это будет пробел
+      if (arr[i] === "**********") {
+        arr[i] = " ";
+      } else {
+        // переводим отрезок в число, чтоб обрезать нули, и обратно в строку
+        arr[i] = (+arr[i]).toString();
+        let letter = "";
+        // разбиваем отрезок по 2 символа
+        for (j = 0; j < arr[i].length; j+=2) {
+          // если символ 10 - добавляем "."
+          if (arr[i].slice(j, j + 2) === "10") {
+          letter += ".";
+          // если нет - то "-"
+          } else {
+          letter += "-";;
+          };
+        }
+        // переводим кодировку в символы
+        arr[i] = MORSE_TABLE[letter];
+      }
+  }
+  // объединяем символы в одну строку
+  return arr.join("");
 }
 
 module.exports = {
